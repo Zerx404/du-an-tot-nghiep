@@ -1,31 +1,15 @@
-import { useState } from 'react'
-import AuthContext from './AuthContext'
+import { useState } from "react";
+import { AuthContext } from "./AuthContext";
 
 export default function AuthProvider({ children }) {
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(false)
+  const [user, setUser] = useState(null);
 
-  const login = (userData) => {
-    setLoading(true)
-    setUser(userData)
-    setLoading(false)
-  }
-
-  const logout = () => {
-    setUser(null)
-  }
-
-  const value = {
-    user,
-    loading,
-    login,
-    logout,
-    isAuthenticated: Boolean(user),
-  }
+  const login = (role = "user") => setUser({ role });
+  const logout = () => setUser(null);
 
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
-  )
+  );
 }
